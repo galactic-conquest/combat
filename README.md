@@ -13,6 +13,8 @@ Docker
     $(which php) bin/composer.phar dump-autoload --optimize
 ```
 
+or use phing with ./build.xml and execute build:dev
+
 ### TestCommand in Container
 ```
     $(which php) console combat:example
