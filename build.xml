@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gc_combat" default="build:dev" basedir=".">
+    <target name="build:dev" description="kill dev => build dev">
+        <phingcall target="docker:down"/>
+        <phingcall target="docker:build"/>
+        <phingcall target="docker:up"/>
+        <phingcall target="build:dev:backend"/>
+        <phingcall target="docker:ps"/>
+        <echo msg="Dev build completed. System should be healthy now!"/>
+    </target>
+
+    <target name="build:dev:backend">
+        <phingcall target="composer:install"/>
+        <phingcall target="composer:dump-autoload"/>
+    </target>
+
+    <target name="docker:down">
+        <exec passthru="true" command="docker compose -f .docker/dev/docker-compose.yaml down"/>
+        <phingcall target="docker:ps"/>
+    </target>
+
+    <target name="docker:build" hidden="true">
+        <exec passthru="true" checkreturn="true" command="COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker compose -f .docker/dev/docker-compose.yaml build"/>
+    </target>
+
+    <target name="docker:up">
+        <exec passthru="true" command="docker compose -f .docker/dev/docker-compose.yaml up -d"/>
+        <phingcall target="docker:ps"/>
+    </target>
+
+    <target name="docker:stop">
+        <exec passthru="true" command="docker compose -f .docker/dev/docker-compose.yaml stop"/>
+        <phingcall target="docker:ps"/>
+    </target>
+
+    <target name="docker:ps">
+        <exec passthru="true" command="docker ps"/>
+    </target>
+
+    <target name="composer:install">
+        <exec passthru="true" command="docker exec ${phing.project.name}_dev_php sh -c '$(which php) bin/composer.phar install'"/>
+    </target>
+
+    <target name="composer:update">
+        <exec passthru="true" command="docker exec ${phing.project.name}_dev_php sh -c '$(which php) bin/composer.phar update'"/>
+    </target>
+
+    <target name="composer:analyze">
+        <exec passthru="true" command="docker exec ${phing.project.name}_dev_php sh -c '$(which php) bin/composer.phar analyze'"/>
+    </target>
+
+    <target name="composer:dump-autoload">
+        <exec passthru="true" command="docker exec ${phing.project.name}_dev_php sh -c '$(which php) bin/composer.phar dump-autoload --optimize'"/>
+    </target>
+
+    <target name="combat:example">
+        <exec passthru="true" command="docker exec ${phing.project.name}_dev_php sh -c '$(which php) console combat:example'"/>
+    </target>
+</project>

@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use GC\Combat\Business\CombatFacadeFactory;
+use GC\Combat\Command\CombatExampleCommand;
+use Symfony\Component\Console\Application;
+
+chdir(__DIR__);
+
+require 'vendor/autoload.php';
+
+// keep global namespace clean.
+(static function (): void {
+    $app = new Application('GC Combat', '0.9');
+
+    $combatExampleCommand = new CombatExampleCommand(
+        (new CombatFacadeFactory())()
+    );
+
+    $app->add($combatExampleCommand);
+
+    $app->run();
+})();

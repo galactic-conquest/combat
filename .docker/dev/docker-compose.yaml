@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  php:
+    container_name: gc_combat_dev_php
+    build:
+      context: ./../..
+      target: php-dev
+      dockerfile: .docker/dev/Dockerfile
+    environment:
+      XDEBUG_CONFIG: "client_host=host.docker.internal"
+    volumes:
+      - ../../:/var/www/current
+    working_dir: /var/www/current
+    restart: always
+    networks:
+      - gc_combat_net
+
+networks:
+  gc_combat_net:
+    driver: bridge

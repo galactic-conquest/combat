@@ -1,0 +1,45 @@
+{
+  "name": "galactic-conquest/combat",
+  "type": "project",
+  "description": "GC Combat",
+  "require": {
+    "php": "^8.2",
+    "psr/container": "^2.0",
+    "symfony/console": "^6.2"
+  },
+  "require-dev": {
+    "phpstan/extension-installer": "^1.1",
+    "phpstan/phpstan": "^1.9",
+    "phpstan/phpstan-deprecation-rules": "^1.0",
+    "phpstan/phpstan-strict-rules": "^1.3",
+    "roave/security-advisories": "dev-latest"
+  },
+  "autoload": {
+    "psr-4": {
+      "GC\\": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "process-timeout": 600,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "platform": {
+      "php": "8.2.0"
+    },
+    "use-include-path": true,
+    "sort-packages": true,
+    "github-protocols": [
+      "https"
+    ],
+    "allow-plugins": {
+      "phpstan/phpstan": true,
+      "phpstan/extension-installer": true
+    }
+  },
+  "scripts": {
+    "analyze": "phpstan analyse -c phpstan.neon --no-progress"
+  }
+}
