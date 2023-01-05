@@ -10,7 +10,6 @@ Docker
     docker compose -f .docker/dev/docker-compose.yaml up -d
     docker exec -it gc_combat_dev_php sh
     php bin/composer.phar install
-    php bin/composer.phar dump-autoload --optimize
 ```
 
 or use phing with ./build.xml and execute build:dev
